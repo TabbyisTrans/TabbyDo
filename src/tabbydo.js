@@ -1,4 +1,8 @@
-const fs = require("fs");
+#!/usr/bin/env node
+
+import chalk from "chalk";
+import fs from "fs";
+//const fs = require("fs");
 const filePath = "../resource/list.json";
 
 function load() {
@@ -20,7 +24,7 @@ function add(item) {
     const list = load();
     list.push(item);
     save(list);
-    console.log("Added " + item);
+    console.log("Added " + chalk.green(item));
 }
 
 function remove(item) {
@@ -28,7 +32,7 @@ function remove(item) {
     const newList = list.filter((i) => i !== item);
     if (list.length !== newList.length) {
         save(newList);
-        console.log("Removed " + item);
+        console.log("Removed " + chalk.red(item));
     } else {
         err.console.log("Unable to remove " + item);
     }
@@ -36,7 +40,10 @@ function remove(item) {
 
 function list() {
     const list = load();
-    list.forEach((item, index) => console.log(`${index + 1}. ${item}`));
+    console.log(chalk.cyan("List:"));
+    list.forEach((item, index) =>
+        console.log(`${chalk.cyan(index + 1 + ".")} ${item}`)
+    );
 }
 
 const command = process.argv[2];
