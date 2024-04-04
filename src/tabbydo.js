@@ -2,8 +2,10 @@
 
 import chalk from "chalk";
 import fs from "fs";
-//const fs = require("fs");
-const filePath = "../resource/list.json";
+import path from "path";
+
+const rootDir = path.resolve(new URL(".", import.meta.url).pathname, "..");
+const filePath = path.join(rootDir, "resource", "list.json");
 
 function load() {
     try {
@@ -12,7 +14,7 @@ function load() {
         return JSON.parse(dataJSON);
     } catch (err) {
         return [];
-        err.console.log("Unable to load data from " + filePath);
+        console.log(chalk.redBright("Unable to load data from " + filePath));
     }
 }
 function save(list) {
@@ -34,7 +36,7 @@ function remove(item) {
         save(newList);
         console.log("Removed " + chalk.red(item));
     } else {
-        err.console.log("Unable to remove " + item);
+        console.log(chalk.redBright("Unable to remove " + item));
     }
 }
 
@@ -54,14 +56,14 @@ switch (command) {
         if (value) {
             add(value);
         } else {
-            err.console.log("No value to add");
+            console.log(chalk.redBright("No value to add"));
         }
         break;
     case "remove":
         if (value) {
             remove(value);
         } else {
-            err.console.log("No value to remove");
+            console.log(chalk.redBright("No value to remove"));
         }
         break;
     case "list":
